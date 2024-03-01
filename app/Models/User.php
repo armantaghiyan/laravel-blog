@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Arman\LaravelHelper\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, BaseModel;
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +42,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------ RELATIONS -------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------  Accessors and Mutators ------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+
+    public function getAvatarAttribute($value)
+    {
+        return $this->correctImage(PATH_USER_AVATAR, $value, 'default.jpg');
+    }
 }

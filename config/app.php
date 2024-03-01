@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fa',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'fa',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,6 +160,10 @@ return [
          * Package Service Providers...
          */
 
+        Arman\LaravelHelper\Providers\LaravelHelperServiceProviders::class,
+        Ybazli\Faker\FakerServiceProvider::class,
+
+
         /*
          * Application Service Providers...
          */
@@ -168,6 +172,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -183,6 +188,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Faker' => Ybazli\Faker\Facades\Faker::class,
     ])->toArray(),
 
 ];

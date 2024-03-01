@@ -3,19 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Ybazli\Faker\Facades\Faker;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
     /**
      * Define the model's default state.
      *
@@ -24,11 +19,14 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            COL_USER_NAME => Faker::fullName(),
+            COL_USER_EMAIL => fake()->unique()->safeEmail(),
+            COL_USER_AVATAR => rand(1, 10) . '.jpg',
+//            COL_USER_AVATAR => null,
+            COL_USER_USERNAME => fake()->userName(),
+            COL_USER_EMAIL_VERIFIED_AT => now(),
+            COL_USER_PASSWORD => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            COL_USER_REMEMBER_TOKEN => Str::random(10),
         ];
     }
 
@@ -37,8 +35,8 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+        return $this->state(fn(array $attributes) => [
+            COL_USER_EMAIL_VERIFIED_AT => null,
         ]);
     }
 }
