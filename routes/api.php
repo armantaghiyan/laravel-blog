@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\LikeType;
+use App\Http\Controllers\Api\LikeApiController;
 use App\Http\Controllers\Api\PostApiController;
 use App\Http\Controllers\Api\UserApiController;
 use Illuminate\Http\Request;
@@ -20,13 +22,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(UserApiController::class)->prefix('user')->group(function () {
-    Route::post('register', 'register');
-    Route::post('login', 'login');
-    Route::post('logout', 'logout');
+Route::controller(UserApiController::class)->group(function () {
+    Route::post('user/register', 'register');
+    Route::post('user/login', 'login');
+    Route::post('user/logout', 'logout');
 });
 
-Route::controller(PostApiController::class)->prefix('post')->group(function () {
-    Route::get('/', 'index');
-    Route::get('/{username}/{slug}', 'show');
+Route::controller(PostApiController::class)->group(function () {
+    Route::get('post/', 'index');
+    Route::get('post/{username}/{slug}', 'show');
+});
+
+Route::controller(LikeApiController::class)->group(function () {
+    Route::post('like/{type}', 'toggle')->whereIn('type', [LikeType::POST->value]);
 });
